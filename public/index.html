@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- 加载 TensorFlow.js，建议换成自己的服务器地址 -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <!-- 加载 Posenet，建议换成自己的服务器地址 -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="/stylesheets/index.css"/>
+  <title>996·killer</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="left">
+      <h3 id="msge">姿态实时监测</h3>
+      <canvas id="output">加载中...</canvas>
+      <video id="video" class="video"></video>
+      <canvas id="canvas" width="300px" height="200px"></canvas>
+
+      <!-- 聊天框 -->
+      <h3>简易聊天室</h3>
+      <div class="chatbox">
+        <div class="chatshow" id="messages"></div>
+        <div class="inputbox">
+          <div class="input">
+            <form action="" class="form">
+              <input type="text" class="in" id="m" autocomplete="off" placeholder="请输入消息！按回车键发送！" />
+            </form>
+          </div>
+          <div class="upbtn">
+            <img src="/images/sub.png" class="uppic" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+<pre  class="line-numbers">
+<code class="language-javascript">
+  posenet.load({ modelUrl: '/model-stride16.json' }).then(net => {
+
+      return net.estimateSinglePose(imageElement, {
+            flipHorizontal: false
+      });
+
+  }).then(pose => {
+
+      console.info(" Welcome to 996·killer "); 
+      console.info(" 996·killer 采用posenet网络模型进行你的姿态检测 "); 
+      console.info(" 通过分析你的五官与姿态，996·killer会提醒你活动并调整姿势 "); 
+      console.info(" 996·killer通过Socket.io提供了简易聊天室 ");
+      console.info(" 996·killer会定时每隔1h提醒你喝水，活动等 ");  
+
+  });
+</code>
+</pre>
+<div class="notice" id="notice">
+  ... ...
+</div>
+<div class="subtitle" id="subtitle"></div>
+    </div>
+  </div>
+
+  <!-- logon p -->
+  <div class="login" id="login">
+    <div class="title">996·KILLER</div>
+    <div class="wel">welcome to 996·KILLER</div>
+    <div class="logininput">
+      <input type="text" value="" placeholder="输入nickname...(Enter 跳转)" class="loginin">
+    </div>
+  </div>
+</body>
+
+<!-- 语音播放 -->
+<div id="bdtts_div_id" style="display: none;">
+  <audio id="tts_autio_id" autoplay="autoplay">
+    <source id="tts_source_id" src="http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&text=欢迎来到996" type="audio/mpeg">
+    <embed id="tts_embed_id" height="0" width="0" src="">
+  </audio>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.js"></script>
+<script src="/javascripts/chat.js"></script>
+<script src="/javascripts/detection.js"></script>
+<script src="/javascripts/socket.io.js"></script>
+<script>
+  window.onload = function () {
+    vedioStart();
+  }
+</script>
+
+</html>
